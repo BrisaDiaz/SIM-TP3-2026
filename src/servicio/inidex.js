@@ -340,16 +340,12 @@ function procesarFila(filaAnterior, datos, generadores) {
 
   if (filaActual[9] === 'Sí') {
     if (filaActual[12] !== 0) {
-      demoraMaxValidacion = filaAnterior[33]
-        ? Math.max(filaAnterior[33], filaActual[12])
-        : filaActual[12];
+      demoraMaxValidacion = Math.max(filaAnterior[33] || 0, filaActual[12]);
     } else {
-      demoraMaxValidacion = filaAnterior[33]
-        ? Math.max(filaAnterior[33], filaActual[13])
-        : filaActual[13];
+      demoraMaxValidacion = Math.max(filaAnterior[33] || 0, filaActual[13]);
     }
   } else {
-    filaActual[33] = filaAnterior[33] || 0; // Si no hubo validación, se mantiene la demora máxima de validación si existía
+    demoraMaxValidacion = filaAnterior[33] || 0; // Si no hubo validación, se mantiene la demora máxima de validación si existía
   }
 
   filaActual[33] = demoraMaxValidacion; // Demora Máxima en Validación
