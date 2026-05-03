@@ -155,10 +155,10 @@ function procesarFila(filaAnterior, datos, generadores) {
   const sectorDestino = determinarSectorDestino(rndSector, datos);
   filaActual[2] = sectorDestino; // Sector
   const rndCuadras = generarRND(); // RND 2
-  const cuadrasAlDestino = determinarCuadrasAlDestino(
-    sectorDestino,
-    rndCuadras,
-    generadores,
+  const cuadrasAlDestino = Number(
+    determinarCuadrasAlDestino(sectorDestino, rndCuadras, generadores).toFixed(
+      0,
+    ),
   );
   filaActual[3] = rndCuadras; // RND 2
   filaActual[4] = cuadrasAlDestino; // Cuadras
