@@ -1,0 +1,280 @@
+/* componentes/InformeResultados.module.css */
+.informe-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  border-radius: 16px;
+  margin: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.informe-vacio {
+  background: #f5f5f5;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  margin: 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+.titulo {
+  color: white;
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.seccion {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.subtitulo {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+
+/* Grid Resumen General */
+.grid-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.2s;
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+}
+
+.tarjeta-icono {
+  font-size: 48px;
+}
+
+.tarjeta-contenido {
+  flex: 1;
+}
+
+.tarjeta-valor {
+  font-size: 28px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.tarjeta-etiqueta {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 5px;
+}
+
+.tarjeta-descripcion {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Tiempos Extremos */
+.grid-tiempos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.tarjeta-tiempo-max,
+.tarjeta-tiempo-min {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.tarjeta-tiempo-max {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+}
+
+.tarjeta-tiempo-min {
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
+  color: white;
+}
+
+.icono-extremo {
+  font-size: 40px;
+}
+
+.etiqueta-extremo {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.valor-extremo {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Tiempos por Sector */
+.grid-sector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.sector-cercano,
+.sector-intermedio,
+.sector-lejano {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.sector-cercano:hover,
+.sector-intermedio:hover,
+.sector-lejano:hover {
+  transform: translateY(-5px);
+}
+
+.sector-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.sector-tiempo {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+}
+
+.sector-descripcion {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Demoras Máximas */
+.grid-demoras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.demora-validacion,
+.demora-bloqueo,
+.demora-parada {
+  background: linear-gradient(135deg, #fe8c00, #f83600);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  transition: transform 0.2s;
+}
+
+.demora-validacion:hover,
+.demora-bloqueo:hover,
+.demora-parada:hover {
+  transform: translateY(-5px);
+}
+
+.demora-validacion {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.demora-bloqueo {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.demora-parada {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.demora-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.demora-valor {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.demora-icono {
+  font-size: 32px;
+  margin-top: 10px;
+}
+
+/* Información Adicional */
+.info-adicional {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #667eea;
+}
+
+.info-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.info-etiqueta {
+  font-weight: bold;
+  color: #667eea;
+  min-width: 60px;
+}
+
+.info-valor {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .informe-container {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .titulo {
+    font-size: 24px;
+  }
+
+  .grid-resumen,
+  .grid-tiempos,
+  .grid-sector,
+  .grid-demoras {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta-valor,
+  .valor-extremo,
+  .sector-tiempo,
+  .demora-valor {
+    font-size: 24px;
+  }
+}
