@@ -1,6 +1,6 @@
 //import { useEffect, useState } from "react"
 import { useForm } from 'react-hook-form';
-//import {useNavigate, useParams, useLocation} from "react-router-dom"
+import styles from './FormularioDatosModificables.module.css';
 
 const FormularioDatosModificables = ({ onSubmitData }) => {
   const {
@@ -32,6 +32,7 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
       mediaParadaExtra: 80,
     },
   });
+
   const onSubmit = async (data) => {
     try {
       onSubmitData(data);
@@ -45,245 +46,181 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
   };
 
   return (
-    <section className='container mt-5'>
-      <h3 className='mb-4'>TP Simulación Parqueando</h3>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='row g-3'
-      >
-        <div className='col-md-6'>
-          <label>Cantidad de filas a simular:</label>
-          <input
-            {...register('filasSimular', { required: true })}
-            className='form-control'
-          />
-          {errors.filasSimular && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
+    <section className={styles.formContainer}>
+      <div className={styles.header}>
+        <h2>TP Simulación Parqueando</h2>
+        <p>Configuración de Parámetros de la Simulación</p>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.gridCards}>
+          
+          {/* Configuración General */}
+          <div className={`${styles.sectionCard} ${styles.fullWidth}`}>
+            <h3 className={styles.sectionTitle}>⚙️ Configuración General</h3>
+            <div className={styles.inputGrid + ' ' + styles.threeColumns}>
+              <div className={styles.inputGroup}>
+                <label>Cantidad a simular:</label>
+                <input type="number" {...register('filasSimular', { required: true })} />
+                {errors.filasSimular && <span className={styles.errorText}>Campo obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Cantidad a mostrar:</label>
+                <input type="number" {...register('filasMostrar', { required: true })} />
+                {errors.filasMostrar && <span className={styles.errorText}>Campo obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Mostrar desde:</label>
+                <input type="number" {...register('filaDesde', { required: true })} />
+                {errors.filaDesde && <span className={styles.errorText}>Campo obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Sector Cercano */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>📍 Sector Cercano</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+                <label>Probabilidad (%):</label>
+                <input type="number" step="any" {...register('probCercano', { required: true })} />
+                {errors.probCercano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Mínimo (A):</label>
+                <input type="number" step="any" {...register('aCercano', { required: true })} />
+                {errors.aCercano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Máximo (B):</label>
+                <input type="number" step="any" {...register('bCercano', { required: true })} />
+                {errors.bCercano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Sector Intermedio */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>📍 Sector Intermedio</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+                <label>Probabilidad (%):</label>
+                <input type="number" step="any" {...register('probIntermedio', { required: true })} />
+                {errors.probIntermedio && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Mínimo (A):</label>
+                <input type="number" step="any" {...register('aIntermedio', { required: true })} />
+                {errors.aIntermedio && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Máximo (B):</label>
+                <input type="number" step="any" {...register('bIntermedio', { required: true })} />
+                {errors.bIntermedio && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Sector Lejano */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>📍 Sector Lejano</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+                <label>Probabilidad (%):</label>
+                <input type="number" step="any" {...register('probLejano', { required: true })} />
+                {errors.probLejano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Mínimo (A):</label>
+                <input type="number" step="any" {...register('aLejano', { required: true })} />
+                {errors.aLejano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Máximo (B):</label>
+                <input type="number" step="any" {...register('bLejano', { required: true })} />
+                {errors.bLejano && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Recorrido */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>🚗 Recorrido (Tiempo/Cuadra)</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup}>
+                <label>Mínimo (A):</label>
+                <input type="number" step="any" {...register('aRecorrido', { required: true })} />
+                {errors.aRecorrido && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Máximo (B):</label>
+                <input type="number" step="any" {...register('bRecorrido', { required: true })} />
+                {errors.bRecorrido && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Parada de Validación */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>🛑 Parada de Validación</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+                <label>Probabilidad de frenar (%):</label>
+                <input type="number" step="any" {...register('probValidacion', { required: true })} />
+                {errors.probValidacion && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Media:</label>
+                <input type="number" step="any" {...register('mediaValidacion', { required: true })} />
+                {errors.mediaValidacion && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Desv. Estándar:</label>
+                <input type="number" step="any" {...register('desvValidacion', { required: true })} />
+                {errors.desvValidacion && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Bloqueo de Ruta */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>🚧 Bloqueo de Ruta</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup}>
+                <label>Probabilidad (%):</label>
+                <input type="number" step="any" {...register('probBloqueo', { required: true })} />
+                {errors.probBloqueo && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Aumento Demora (%):</label>
+                <input type="number" step="any" {...register('porcAumentoDemora', { required: true })} />
+                {errors.porcAumentoDemora && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Parada Extra */}
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>⏸️ Parada Extra</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.inputGroup}>
+                <label>Probabilidad (%):</label>
+                <input type="number" step="any" {...register('probParadaExtra', { required: true })} />
+                {errors.probParadaExtra && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Media:</label>
+                <input type="number" step="any" {...register('mediaParadaExtra', { required: true })} />
+                {errors.mediaParadaExtra && <span className={styles.errorText}>Obligatorio</span>}
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div className='col-md-6'>
-          <label>Cantidad de filas a mostrar:</label>
-          <input
-            {...register('filasMostrar', { required: true })}
-            className='form-control'
-          />
-          {errors.filasMostrar && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <div className='col-md-6'>
-          <label>Mostrar desde la fila :</label>
-          <input
-            {...register('filaDesde', { required: true })}
-            className='form-control'
-          />
-          {errors.filaDesde && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Sector Cercano </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje:</label>
-          <input
-            {...register('probCercano', { required: true })}
-            className='form-control'
-          />
-          {errors.probCercano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>A:</label>
-          <input
-            {...register('aCercano', { required: true })}
-            className='form-control'
-          />
-          {errors.aCercano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>B:</label>
-          <input
-            {...register('bCercano', { required: true })}
-            className='form-control'
-          />
-          {errors.bCercano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Sector Intermedio </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje:</label>
-          <input
-            {...register('probIntermedio', { required: true })}
-            className='form-control'
-          />
-          {errors.probIntermedio && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>A:</label>
-          <input
-            {...register('aIntermedio', { required: true })}
-            className='form-control'
-          />
-          {errors.aIntermedio && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>B:</label>
-          <input
-            {...register('bIntermedio', { required: true })}
-            className='form-control'
-          />
-          {errors.bIntermedio && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Sector Lejano </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje:</label>
-          <input
-            {...register('probLejano', { required: true })}
-            className='form-control'
-          />
-          {errors.probLejano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>A:</label>
-          <input
-            {...register('aLejano', { required: true })}
-            className='form-control'
-          />
-          {errors.aLejano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>B:</label>
-          <input
-            {...register('bLejano', { required: true })}
-            className='form-control'
-          />
-          {errors.bLejano && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Párametros para el recorrido </h3>
-        <div className='col-md-6'>
-          <label>A:</label>
-          <input
-            {...register('aRecorrido', { required: true })}
-            className='form-control'
-          />
-          {errors.aRecorrido && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>B:</label>
-          <input
-            {...register('bRecorrido', { required: true })}
-            className='form-control'
-          />
-          {errors.bRecorrido && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Parada de validación </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje de que frente:</label>
-          <input
-            {...register('probValidacion', { required: true })}
-            className='form-control'
-          />
-          {errors.probValidacion && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>Media:</label>
-          <input
-            {...register('mediaValidacion', { required: true })}
-            className='form-control'
-          />
-          {errors.mediaValidacion && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>Desviación Estándar:</label>
-          <input
-            {...register('desvValidacion', { required: true })}
-            className='form-control'
-          />
-          {errors.desvValidacion && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Bloqueo de Ruta </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje de que haya bloqueo:</label>
-          <input
-            {...register('probBloqueo', { required: true })}
-            className='form-control'
-          />
-          {errors.probBloqueo && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>Porcentaje de aumento de demora:</label>
-          <input
-            {...register('porcAumentoDemora', { required: true })}
-            className='form-control'
-          />
-          {errors.porcAumentoDemora && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <h3 className='mb-4 mt-4'>Parada extra </h3>
-        <div className='col-md-6'>
-          <label>Porcentaje de que haya una parada extra:</label>
-          <input
-            {...register('probParadaExtra', { required: true })}
-            className='form-control'
-          />
-          {errors.probParadaExtra && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-        <div className='col-md-6'>
-          <label>Media:</label>
-          <input
-            {...register('mediaParadaExtra', { required: true })}
-            className='form-control'
-          />
-          {errors.mediaParadaExtra && (
-            <span className='text-danger'>Campo obligatorio</span>
-          )}
-        </div>
-
-        <div className='col-12'>
-          <button
-            type='submit'
-            className='btn btn-success'
-          >
-            Ejecutar
+        <div className={styles.submitContainer}>
+          <button type="submit" className={styles.submitBtn}>
+            Ejecutar Simulación
           </button>
         </div>
       </form>
