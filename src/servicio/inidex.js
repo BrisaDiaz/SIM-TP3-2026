@@ -4,31 +4,31 @@ import {
   GeneradorUniforme,
   generarRND,
 } from '../generadores';
-
+import { formatearTiempo } from '../utils/index';
 
 const MOCK_DATOS = {
-    "filasSimular": 100000,
-    "filasMostrar": 200,
-    "filaDesde": 0,
-    "probCercano": 35,
-    "probIntermedio": 40,
-    "probLejano": 25,
-    "aCercano": 1,
-    "bCercano": 2,
-    "aIntermedio": 2,
-    "bIntermedio": 3,
-    "aLejano": 3,
-    "bLejano": 5,
-    "aRecorrido": 30,
-    "bRecorrido": 45,
-    "probValidacion": 45,
-    "mediaValidacion": 60,
-    "desvValidacion": 20,
-    "probBloqueo": 40,
-    "porcAumentoDemora": 80,
-    "probParadaExtra": 24,
-    "mediaParadaExtra": 80
-}
+  filasSimular: 100000,
+  filasMostrar: 200,
+  filaDesde: 0,
+  probCercano: 35,
+  probIntermedio: 40,
+  probLejano: 25,
+  aCercano: 1,
+  bCercano: 2,
+  aIntermedio: 2,
+  bIntermedio: 3,
+  aLejano: 3,
+  bLejano: 5,
+  aRecorrido: 30,
+  bRecorrido: 45,
+  probValidacion: 45,
+  mediaValidacion: 60,
+  desvValidacion: 20,
+  probBloqueo: 40,
+  porcAumentoDemora: 80,
+  probParadaExtra: 24,
+  mediaParadaExtra: 80,
+};
 
 export function ServicioSimulacion(datos) {
   //Generadores
@@ -351,22 +351,22 @@ function procesarFila(filaAnterior, datos, generadores) {
 }
 
 function generarReporte(ultimaFila) {
-    const N = ultimaFila[0] + 1; // indice + 1
+  const N = ultimaFila[0] + 1; // indice + 1
 
-    const resultados = {
-      punto1: ultimaFila[22] / N, // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
-      punto2: (ultimaFila[23] / N) * 100,
-      punto3: N - ultimaFila[23],
-      punto4: ultimaFila[24],
-      punto5: ultimaFila[25],
-      punto6: ultimaFila[26],
-      punto7A: ultimaFila[30] / ultimaFila[27],
-      punto7B: ultimaFila[31] / ultimaFila[28],
-      punto7C: ultimaFila[32] / ultimaFila[29],
-      punto8A: ultimaFila[33],
-      punto8B: ultimaFila[34],
-      punto8C: ultimaFila[35],
-    };
+  const resultados = {
+    punto1: formatearTiempo(ultimaFila[22] / N), // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
+    punto2: `${Number(((ultimaFila[23] / N) * 100).toFixed(2))}%`, // Porcentaje de vehículos que tuvieron detenciones dobles (parada en validación y parada extra)
+    punto3: N - ultimaFila[23], // Cantidad de vehículos que no tuvieron detenciones dobles
+    punto4: formatearTiempo(ultimaFila[24]), // Tiempo máximo registrado desde el ingreso del vehículo hasta su estacionamiento
+    punto5: formatearTiempo(ultimaFila[25]), // Tiempo mínimo registrado desde el ingreso del vehículo hasta su estacionamiento
+    punto6: ultimaFila[26], // Cantidad de vehículos que tuvieron alguna demora (parada en validación, parada extra o bloqueo de ruta)
+    punto7A: formatearTiempo(ultimaFila[30] / ultimaFila[27]), // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento para vehículos con destino cercano
+    punto7B: formatearTiempo(ultimaFila[31] / ultimaFila[28]), // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento para vehículos con destino intermedio
+    punto7C: formatearTiempo(ultimaFila[32] / ultimaFila[29]), // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento para vehículos con destino lejano
+    punto8A: formatearTiempo(ultimaFila[33]), // Demora máxima en validación
+    punto8B: formatearTiempo(ultimaFila[34]), // Demora máxima por bloqueo
+    punto8C: formatearTiempo(ultimaFila[35]), // Demora máxima por parada extra
+  };
 
   return resultados;
 }
