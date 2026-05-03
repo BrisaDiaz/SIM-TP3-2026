@@ -153,159 +153,204 @@ function procesarFila(filaAnterior, datos, generadores) {
   const demoraBase = tiempoXCuadra * cuadrasAlDestino;
   filaActual[7] = demoraBase; // Demora base
   const rndValidacion = generarRND(); // RND 4
-  filaActual[8] = rndValidacion; //RND 4 
+  filaActual[8] = rndValidacion; //RND 4
   const paradaValidacion = derminarParadaValidacion(rndValidacion, datos);
-  filaActual[9] = paradaValidacion ? 'Sí' : 'No'; 
-    
-     // Actualizar las demoras de validación disponibles
-        if (filaAnterior[9] === 'Sí') {
-        // Si hubo validación en la fila anterior y se generaron demoras, se utilzó la demora de validación 1 (filaAnterior[12])
-        if (filaAnterior[12] !== 0 && filaAnterior[13] !== 0) {
-            filaActual[12] = 0;
-            filaActual[13] = filaAnterior[13]; // Demora validación 2 se mantiene
-        } else {
-            // Si no se generaron demoras en la fila anterior, se utilizo un demora de validación 2 y ambas quedan en cero
-            filaActual[12] = 0;
-            filaActual[13] = 0;
-        }
-    }
-    
-    if (filaActual[9] === 'Sí') {
-      // Si se tiene una demora de validación y no hay una demora remanente (Demora de validación 2) en la fila anterior, se generan las demoras de validación 1 y 2
-      if (filaActual[13] === 0) {
-        // generar las demoras
-        const rnd1DemoraValidacion = generarRND(); // RND 5
-        const rnd2DemoraValidacion = generarRND(); // RND 6
-        filaActual[10] = rnd1DemoraValidacion; // RND 5
-        filaActual[11] = rnd2DemoraValidacion; // RND 6
-        const arrayDemorasValidacion = determinarDemoraValidacion(
-          rnd1DemoraValidacion,
-          rnd2DemoraValidacion,
-          generadores,
-        );
-        filaActual[12] = arrayDemorasValidacion[0]; // Demora validación 1
-        filaActual[13] = arrayDemorasValidacion[1]; // Demora validación 2
-      }
-    }  else {
-        filaActual[10] = '-'; // RND 5 vacío si no hay parada en validación
-        filaActual[11] = '-'; // RND 6 mantiene el valor anterior si no hay parada en validación
-    }
-  
-    let bloqueoRuta = false;
+  filaActual[9] = paradaValidacion ? 'Sí' : 'No';
 
-    if (['Cercano', 'Lejano'].includes(sectorDestino)) {
-        const rndBloqueo = generarRND(); 
-        filaActual[14] = rndBloqueo; // RND 7 
-        bloqueoRuta = determinarBloqueoRuta(rndBloqueo, datos);
-        filaActual[15] = bloqueoRuta ? 'Sí' : 'No'; // ¿Ruta bloqueada?
-        if (bloqueoRuta) {
-            const incrementoDemora = determinarDemoraBloqueo(datos, demoraBase); 
-            filaActual[16] = incrementoDemora; // Incremento 
-        } else {
-            filaActual[16] = 0; // Sin incremento de demora
-        }
-              
-    } else{
-        filaActual[14] = '-'; // RND 7 vacío para sector intermedio
-        filaActual[15] = '-'; // ¿Ruta Bloqueada? vacía para sector intermedio
-        filaActual[16] = 0; // Incremento nulo para sector intermedio
-    }
-
-    const rndParadaExtra = generarRND(); // RND 8
-    filaActual[18] = rndParadaExtra; // RND 8
-    const paradaExtra = determinarParadaExtra(rndParadaExtra, datos);
-    filaActual[19] = paradaExtra ? 'Sí' : 'No'; // ¿Hace Parada Extra?
-    if (paradaExtra) {
-        const rndDemoraParadaExtra = generarRND(); // RND 9 
-        filaActual[20] = rndDemoraParadaExtra; // RND 9
-        const demoraParadaExtra = determinarDemoraParadaExtra(rndDemoraParadaExtra, generadores);
-        filaActual[2] = demoraParadaExtra; // Demora por parada extra
+  // Actualizar las demoras de validación disponibles
+  if (filaAnterior[9] === 'Sí') {
+    // Si hubo validación en la fila anterior y se generaron demoras, se utilzó la demora de validación 1 (filaAnterior[12])
+    if (filaAnterior[12] !== 0 && filaAnterior[13] !== 0) {
+      filaActual[12] = 0;
+      filaActual[13] = filaAnterior[13]; // Demora validación 2 se mantiene
     } else {
-        filaActual[19] = '-'; // RND 9 vacío si no hace parada extra
-        filaActual[20] = 0; // Sin demora por parada extra
+      // Si no se generaron demoras en la fila anterior, se utilizo un demora de validación 2 y ambas quedan en cero
+      filaActual[12] = 0;
+      filaActual[13] = 0;
     }
+  }
 
-    let tiempoTotal = 0;
-
-    if(filaActual[12]!= 0){
-        tiempoTotal =
-          demoraBase + filaActual[12] + filaActual[16] + filaActual[20];
+  if (filaActual[9] === 'Sí') {
+    // Si se tiene una demora de validación y no hay una demora remanente (Demora de validación 2) en la fila anterior, se generan las demoras de validación 1 y 2
+    if (filaActual[13] === 0) {
+      // generar las demoras
+      const rnd1DemoraValidacion = generarRND(); // RND 5
+      const rnd2DemoraValidacion = generarRND(); // RND 6
+      filaActual[10] = rnd1DemoraValidacion; // RND 5
+      filaActual[11] = rnd2DemoraValidacion; // RND 6
+      const arrayDemorasValidacion = determinarDemoraValidacion(
+        rnd1DemoraValidacion,
+        rnd2DemoraValidacion,
+        generadores,
+      );
+      filaActual[12] = arrayDemorasValidacion[0]; // Demora validación 1
+      filaActual[13] = arrayDemorasValidacion[1]; // Demora validación 2
     }
-    else{
-        tiempoTotal = demoraBase + filaActual[13] + filaActual[16] + filaActual[20];
+  } else {
+    filaActual[10] = '-'; // RND 5 vacío si no hay parada en validación
+    filaActual[11] = '-'; // RND 6 mantiene el valor anterior si no hay parada en validación
+  }
+
+  let bloqueoRuta = false;
+
+  if (['Cercano', 'Lejano'].includes(sectorDestino)) {
+    const rndBloqueo = generarRND();
+    filaActual[14] = rndBloqueo; // RND 7
+    bloqueoRuta = determinarBloqueoRuta(rndBloqueo, datos);
+    filaActual[15] = bloqueoRuta ? 'Sí' : 'No'; // ¿Ruta bloqueada?
+    if (bloqueoRuta) {
+      const incrementoDemora = determinarDemoraBloqueo(datos, demoraBase);
+      filaActual[16] = incrementoDemora; // Incremento
+    } else {
+      filaActual[16] = 0; // Sin incremento de demora
     }
-    filaActual[21] = tiempoTotal; // Tiempo total 
+  } else {
+    filaActual[14] = '-'; // RND 7 vacío para sector intermedio
+    filaActual[15] = '-'; // ¿Ruta Bloqueada? vacía para sector intermedio
+    filaActual[16] = 0; // Incremento nulo para sector intermedio
+  }
 
-    //Acumuladores
-    const tiempoTotalAcumulado = filaAnterior[22] ? filaAnterior[22] + filaActual[21] : filaActual[21];
-    filaActual[22] = tiempoTotalAcumulado; // Tiempo++
+  const rndParadaExtra = generarRND(); // RND 8
+  filaActual[17] = rndParadaExtra; // RND 8
+  const paradaExtra = determinarParadaExtra(rndParadaExtra, datos);
+  filaActual[18] = paradaExtra ? 'Sí' : 'No'; // ¿Hace Parada Extra?
+  if (paradaExtra) {
+    const rndDemoraParadaExtra = generarRND(); // RND 9
+    filaActual[19] = rndDemoraParadaExtra; // RND 9
+    const demoraParadaExtra = determinarDemoraParadaExtra(
+      rndDemoraParadaExtra,
+      generadores,
+    );
+    filaActual[20] = demoraParadaExtra; // Demora por parada extra
+  } else {
+    filaActual[19] = '-'; // RND 9 vacío si no hace parada extra
+    filaActual[20] = 0; // Sin demora por parada extra
+  }
 
-    const contadorDetencionesDobles = filaAnterior[23] + (paradaValidacion && paradaExtra ? 1 : 0);
-    filaActual[23] = contadorDetencionesDobles; // Detenciones dobles++
+  let tiempoTotal = 0;
 
-    const maxTiempo = filaAnterior[24] ? Math.max(filaAnterior[24], filaActual[21]) : filaActual[21];
-    filaActual[24] = maxTiempo; // Max Tiempo
+  if (filaActual[12] != 0) {
+    tiempoTotal = demoraBase + filaActual[12] + filaActual[16] + filaActual[20];
+  } else {
+    tiempoTotal = demoraBase + filaActual[13] + filaActual[16] + filaActual[20];
+  }
+  filaActual[21] = tiempoTotal; // Tiempo total
 
-    const minTiempo = filaAnterior[25] ? Math.min(filaAnterior[25], filaActual[21]) : filaActual[21];
-    filaActual[25] = minTiempo; // Min Tiempo
+  //Acumuladores
+  const tiempoTotalAcumulado = filaAnterior[22]
+    ? filaAnterior[22] + filaActual[21]
+    : filaActual[21];
+  filaActual[22] = tiempoTotalAcumulado; // Tiempo++
 
-    const contadorVehiculosDemorados = filaAnterior[26] ? (paradaValidacion || paradaExtra || bloqueoRuta ? 1 : 0) + filaAnterior[26] : (paradaValidacion || paradaExtra || bloqueoRuta ? 1 : 0);
-    filaActual[26] = contadorVehiculosDemorados; // Vehículos demorados++
+  const contadorDetencionesDobles =
+    (filaAnterior[23] || 0) + (paradaValidacion && paradaExtra ? 1 : 0);
+  filaActual[23] = contadorDetencionesDobles; // Detenciones dobles++
 
-    const contadorVehiculosCercano = filaAnterior[27] ? filaAnterior[27] + (sectorDestino === 'Cercano' ? 1 : 0) : (sectorDestino === 'Cercano' ? 1 : 0);
-    filaActual[27] = contadorVehiculosCercano; // Contador Vehículos Cercano
+  const maxTiempo = filaAnterior[24]
+    ? Math.max(filaAnterior[24], filaActual[21])
+    : filaActual[21];
+  filaActual[24] = maxTiempo; // Max Tiempo
 
-    const contadorVehiculosIntermedio = filaAnterior[28] ? filaAnterior[28] + (sectorDestino === 'Intermedio' ? 1 : 0) : (sectorDestino === 'Intermedio' ? 1 : 0);
-    filaActual[28] = contadorVehiculosIntermedio; // Contador Vehículos Intermedio
+  const minTiempo = filaAnterior[25]
+    ? Math.min(filaAnterior[25], filaActual[21])
+    : filaActual[21];
+  filaActual[25] = minTiempo; // Min Tiempo
 
-    const contadorVehiculosLejanos = filaAnterior[29] ? filaAnterior[29] + (sectorDestino === 'Lejano' ? 1 : 0) : (sectorDestino === 'Lejano' ? 1 : 0);
-    filaActual[29] = contadorVehiculosLejanos; // Contador Vehículos Lejano
+  const contadorVehiculosDemorados = filaAnterior[26]
+    ? (paradaValidacion || paradaExtra || bloqueoRuta ? 1 : 0) +
+      filaAnterior[26]
+    : paradaValidacion || paradaExtra || bloqueoRuta
+      ? 1
+      : 0;
+  filaActual[26] = contadorVehiculosDemorados; // Vehículos demorados++
 
-    const acumuladorVehiculosCercano = filaAnterior[30] ? filaAnterior[30] + (sectorDestino === 'Cercano' ? filaActual[21] : 0) : (sectorDestino === 'Cercano' ?  filaActual[21] : 0);
-    filaActual[30] = acumuladorVehiculosCercano; // Tiempo Acumulado Vehículos Cercano
+  const contadorVehiculosCercano = filaAnterior[27]
+    ? filaAnterior[27] + (sectorDestino === 'Cercano' ? 1 : 0)
+    : sectorDestino === 'Cercano'
+      ? 1
+      : 0;
+  filaActual[27] = contadorVehiculosCercano; // Contador Vehículos Cercano
 
-    const acumuladorVehiculosIntermedio = filaAnterior[31] ? filaAnterior[31] + (sectorDestino === 'Intermedio' ? filaActual[21] : 0) : (sectorDestino === 'Intermedio' ? filaActual[21] : 0);
-    filaActual[31] = acumuladorVehiculosIntermedio; // Tiempo Acumulado Vehículos Intermedio
+  const contadorVehiculosIntermedio = filaAnterior[28]
+    ? filaAnterior[28] + (sectorDestino === 'Intermedio' ? 1 : 0)
+    : sectorDestino === 'Intermedio'
+      ? 1
+      : 0;
+  filaActual[28] = contadorVehiculosIntermedio; // Contador Vehículos Intermedio
 
-    const acumuladorVehiculosLejanos = filaAnterior[32] ? filaAnterior[32] + (sectorDestino === 'Lejano' ? filaActual[21]: 0) : (sectorDestino === 'Lejano' ? filaActual[21] : 0);
-    filaActual[32] = acumuladorVehiculosLejanos; // Tiempo Acumulado Vehículos Lejano
+  const contadorVehiculosLejanos = filaAnterior[29]
+    ? filaAnterior[29] + (sectorDestino === 'Lejano' ? 1 : 0)
+    : sectorDestino === 'Lejano'
+      ? 1
+      : 0;
+  filaActual[29] = contadorVehiculosLejanos; // Contador Vehículos Lejano
 
-    let demoraMaxValidacion = 0;
+  const acumuladorVehiculosCercano = filaAnterior[30]
+    ? filaAnterior[30] + (sectorDestino === 'Cercano' ? filaActual[21] : 0)
+    : sectorDestino === 'Cercano'
+      ? filaActual[21]
+      : 0;
+  filaActual[30] = acumuladorVehiculosCercano; // Tiempo Acumulado Vehículos Cercano
 
-    if(filaActual[12]!= 0){
-        demoraMaxValidacion = filaAnterior[33] ? Math.max(filaAnterior[33], filaActual[12]) : filaActual[12];
-    } else{
-        demoraMaxValidacion = filaAnterior[33] ? Math.max(filaAnterior[33], filaActual[13]) : filaActual[13];
-    }
-    
-    filaActual[33] = demoraMaxValidacion; // Demora Máxima en Validación
+  const acumuladorVehiculosIntermedio = filaAnterior[31]
+    ? filaAnterior[31] + (sectorDestino === 'Intermedio' ? filaActual[21] : 0)
+    : sectorDestino === 'Intermedio'
+      ? filaActual[21]
+      : 0;
+  filaActual[31] = acumuladorVehiculosIntermedio; // Tiempo Acumulado Vehículos Intermedio
 
-    const demoraMaxBloqueo = filaAnterior[34] ? Math.max(filaAnterior[34], filaActual[16]) : filaActual[16];
-    filaActual[34] = demoraMaxBloqueo; // Demora Máxima por Bloqueo
+  const acumuladorVehiculosLejanos = filaAnterior[32]
+    ? filaAnterior[32] + (sectorDestino === 'Lejano' ? filaActual[21] : 0)
+    : sectorDestino === 'Lejano'
+      ? filaActual[21]
+      : 0;
+  filaActual[32] = acumuladorVehiculosLejanos; // Tiempo Acumulado Vehículos Lejano
 
-    const demoraMaxParadaExtra = filaAnterior[35] ? Math.max(filaAnterior[35], filaActual[20]) : filaActual[20];
-    filaActual[35] = demoraMaxParadaExtra; // Demora Máxima por Parada Extra    
+  let demoraMaxValidacion = 0;
 
+  if (filaActual[12] != 0) {
+    demoraMaxValidacion = filaAnterior[33]
+      ? Math.max(filaAnterior[33], filaActual[12])
+      : filaActual[12];
+  } else {
+    demoraMaxValidacion = filaAnterior[33]
+      ? Math.max(filaAnterior[33], filaActual[13])
+      : filaActual[13];
+  }
+
+  filaActual[33] = demoraMaxValidacion; // Demora Máxima en Validación
+
+  const demoraMaxBloqueo = filaAnterior[34]
+    ? Math.max(filaAnterior[34], filaActual[16])
+    : filaActual[16];
+  filaActual[34] = demoraMaxBloqueo; // Demora Máxima por Bloqueo
+
+  const demoraMaxParadaExtra = filaAnterior[35]
+    ? Math.max(filaAnterior[35], filaActual[20])
+    : filaActual[20];
+  filaActual[35] = demoraMaxParadaExtra; // Demora Máxima por Parada Extra
+
+  return filaActual;
 }
 
-
 function generarReporte(ultimaFila) {
-    const N = [ultimaFila][0] + 1; // indice + 1
+  const N = [ultimaFila][0] + 1; // indice + 1
 
-    const resultados = {
-        punto1: ultimaFila[22] / N, // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
-        punto2: ultimaFila[23] / N * 100, 
-        punto3: N - ultimaFila[23],
-        punto4: ultimaFila[24],
-        punto5: ultimaFila[25],
-        punto6: ultimaFila[26],
-        punto7A: ultimaFila[40] / ultimaFila[27],
-        punto7B: ultimaFila[41] / ultimaFila[28],
-        punto7C: ultimaFila[42] / ultimaFila[29],
-        punto8A: ultimaFila[43],
-        punto8B: ultimaFila[44],
-        punto8C: ultimaFila[45],
-    };
+  console.log('Última fila:', ultimaFila);
+  const resultados = {
+    punto1: ultimaFila[22] / N, // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
+    punto2: (ultimaFila[23] / N) * 100,
+    punto3: N - ultimaFila[23],
+    punto4: ultimaFila[24],
+    punto5: ultimaFila[25],
+    punto6: ultimaFila[26],
+    punto7A: ultimaFila[40] / ultimaFila[27],
+    punto7B: ultimaFila[41] / ultimaFila[28],
+    punto7C: ultimaFila[42] / ultimaFila[29],
+    punto8A: ultimaFila[43],
+    punto8B: ultimaFila[44],
+    punto8C: ultimaFila[45],
+  };
 
-    return resultados;
+  return resultados;
 }

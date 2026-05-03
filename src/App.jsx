@@ -4,10 +4,12 @@
 //import heroImg from './assets/hero.png'
 import './App.css';
 import FormularioDatosModificables from './FormularioDatosModificables';
+import { ServicioSimulacion } from './servicio/inidex';
 
 function App() {
   function onSubmitData(data) {
-    console.log('Datos enviados:', data);
+    const resultados = ServicioSimulacion(data);
+    console.log('Resultados:', resultados);
   }
 
   return <FormularioDatosModificables onSubmitData={onSubmitData} />;
