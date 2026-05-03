@@ -47,7 +47,7 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
   };
 
   return (
-    <main className='container mt-5'>
+    <section className='container mt-5'>
       <h3 className='mb-4'>TP Simulación Parqueando</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -289,7 +289,7 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
           </button>
         </div>
       </form>
-    </main>
+    </section>
   );
 };
 
