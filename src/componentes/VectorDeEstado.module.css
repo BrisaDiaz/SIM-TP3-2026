@@ -1,0 +1,67 @@
+/* VectorDeEstado.module.css */
+.contenedor-tabla {
+  width: 100%;
+  height: 500px; /* Ajusta la altura según necesites */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.contenedor-scroll {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 2000px; /* Para asegurar scroll horizontal */
+}
+
+.tabla th,
+.tabla td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center; /* CAMBIADO: centrado horizontal */
+  vertical-align: middle; /* CAMBIADO: centrado vertical */
+  white-space: nowrap;
+}
+
+.th-principal {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center; /* Centrado */
+  font-weight: bold;
+  padding: 10px;
+}
+
+.th-secundaria {
+  background-color: #34495e;
+  color: white;
+  font-weight: 500;
+  padding: 8px;
+  text-align: center; /* Centrado */
+}
+
+.tabla tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Estilo para la última fila fija */
+.fija-final {
+  background-color: #ffeb3b;
+  font-weight: bold;
+  position: sticky;
+  bottom: 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+/* Opcional: colores alternos en filas para mejor legibilidad */
+.tabla tbody tr:nth-child(even):not(.fija-final) {
+  background-color: #f9f9f9;
+}

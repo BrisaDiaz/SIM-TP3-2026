@@ -6,9 +6,7 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-    getValues,
   } = useForm({
     defaultValues: {
       filasSimular: 100000,

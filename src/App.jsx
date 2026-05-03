@@ -1,18 +1,31 @@
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from './assets/vite.svg'
-//import heroImg from './assets/hero.png'
 import './App.css';
-import FormularioDatosModificables from './FormularioDatosModificables';
+import FormularioDatosModificables from './componentes/FormularioDatosModificables';
 import { ServicioSimulacion } from './servicio/inidex';
-
+import VectorDeEstado from './componentes/VectorDeEstado';
+import { useState } from 'react';
 function App() {
+  const [resultados, setResultados] = useState({
+    vectorEstado: [[]],
+    ultimaFila: [],
+    reporte: {},
+  });
+
   function onSubmitData(data) {
     const resultados = ServicioSimulacion(data);
-    console.log('Resultados:', resultados);
+    setResultados(resultados);
+    console.log(resultados);
   }
 
-  return <FormularioDatosModificables onSubmitData={onSubmitData} />;
+  return (
+    <>
+      <FormularioDatosModificables onSubmitData={onSubmitData} />
+
+      <VectorDeEstado
+        vectorEstado={resultados.vectorEstado}
+        ultimaFila={resultados.ultimaFila}
+      />
+    </>
+  );
 }
 
 export default App;
