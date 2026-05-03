@@ -252,11 +252,18 @@ function procesarFila(filaAnterior, datos, generadores) {
 
   let tiempoTotal = 0;
 
-  if (filaActual[12] != 0) {
-    tiempoTotal = demoraBase + filaActual[12] + filaActual[16] + filaActual[20];
+  if (filaActual[9] === 'Sí') {
+    if (filaActual[12] !== 0) {
+      tiempoTotal =
+        demoraBase + filaActual[12] + filaActual[16] + filaActual[20];
+    } else {
+      tiempoTotal =
+        demoraBase + filaActual[13] + filaActual[16] + filaActual[20];
+    }
   } else {
-    tiempoTotal = demoraBase + filaActual[13] + filaActual[16] + filaActual[20];
+    tiempoTotal = demoraBase + filaActual[16] + filaActual[20];
   }
+
   filaActual[21] = tiempoTotal; // Tiempo total
 
   //Acumuladores
@@ -331,14 +338,18 @@ function procesarFila(filaAnterior, datos, generadores) {
 
   let demoraMaxValidacion = 0;
 
-  if (filaActual[12] != 0) {
-    demoraMaxValidacion = filaAnterior[33]
-      ? Math.max(filaAnterior[33], filaActual[12])
-      : filaActual[12];
+  if (filaActual[9] === 'Sí') {
+    if (filaActual[12] !== 0) {
+      demoraMaxValidacion = filaAnterior[33]
+        ? Math.max(filaAnterior[33], filaActual[12])
+        : filaActual[12];
+    } else {
+      demoraMaxValidacion = filaAnterior[33]
+        ? Math.max(filaAnterior[33], filaActual[13])
+        : filaActual[13];
+    }
   } else {
-    demoraMaxValidacion = filaAnterior[33]
-      ? Math.max(filaAnterior[33], filaActual[13])
-      : filaActual[13];
+    filaActual[33] = filaAnterior[33] || 0; // Si no hubo validación, se mantiene la demora máxima de validación si existía
   }
 
   filaActual[33] = demoraMaxValidacion; // Demora Máxima en Validación
