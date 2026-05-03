@@ -181,7 +181,7 @@ function procesarFila(filaAnterior, datos, generadores) {
   if (filaAnterior[9] === 'Sí') {
     // Si hubo validación en la fila anterior y se generaron demoras, se utilzó la demora de validación 1 (filaAnterior[12])
 
-    if (filaAnterior[12] && filaAnterior[13] !== 0) {
+    if (filaAnterior[12] !== 0 && filaAnterior[13] !== 0) {
       filaActual[12] = 0;
       filaActual[13] = filaAnterior[13]; // Demora validación 2 se mantiene
     } else {
@@ -190,8 +190,10 @@ function procesarFila(filaAnterior, datos, generadores) {
       filaActual[13] = 0;
     }
   } else {
-    filaActual[12] = 0;
-    filaActual[13] = 0;
+    filaActual[12] = filaAnterior[12] || 0; // Si no hubo validación en la fila anterior, se mantiene la demora de validación 1 si existía
+    filaActual[13] = filaAnterior[13] || 0; // Si no hubo validación en la fila anterior, se mantiene la demora de validación 2 si existía
+    filaActual[10] = '-'; // RND 5
+    filaActual[11] = '-'; // RND 6
   }
 
   if (filaActual[9] === 'Sí') {
