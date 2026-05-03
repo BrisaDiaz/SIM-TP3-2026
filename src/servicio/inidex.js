@@ -351,23 +351,22 @@ function procesarFila(filaAnterior, datos, generadores) {
 }
 
 function generarReporte(ultimaFila) {
-  const N = [ultimaFila][0] + 1; // indice + 1
+    const N = ultimaFila[0] + 1; // indice + 1
 
-  console.log('Última fila:', ultimaFila);
-  const resultados = {
-    punto1: ultimaFila[22] / N, // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
-    punto2: (ultimaFila[23] / N) * 100,
-    punto3: N - ultimaFila[23],
-    punto4: ultimaFila[24],
-    punto5: ultimaFila[25],
-    punto6: ultimaFila[26],
-    punto7A: ultimaFila[40] / ultimaFila[27],
-    punto7B: ultimaFila[41] / ultimaFila[28],
-    punto7C: ultimaFila[42] / ultimaFila[29],
-    punto8A: ultimaFila[43],
-    punto8B: ultimaFila[44],
-    punto8C: ultimaFila[45],
-  };
+    const resultados = {
+      punto1: ultimaFila[22] / N, // Tiempo promedio desde el ingreso del vehículo hasta su estacionamiento
+      punto2: (ultimaFila[23] / N) * 100,
+      punto3: N - ultimaFila[23],
+      punto4: ultimaFila[24],
+      punto5: ultimaFila[25],
+      punto6: ultimaFila[26],
+      punto7A: ultimaFila[30] / ultimaFila[27],
+      punto7B: ultimaFila[31] / ultimaFila[28],
+      punto7C: ultimaFila[32] / ultimaFila[29],
+      punto8A: ultimaFila[33],
+      punto8B: ultimaFila[34],
+      punto8C: ultimaFila[35],
+    };
 
   return resultados;
 }
