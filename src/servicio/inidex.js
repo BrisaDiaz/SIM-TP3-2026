@@ -149,7 +149,7 @@ function determinarDemoraParadaExtra(rnd, generadores) {
 }
 
 function procesarFila(filaAnterior, datos, generadores) {
-  const filaActual = [...filaAnterior]; // copiar fila anterior
+  const filaActual = []; // copiar fila anterior
 
   filaActual[0] = (filaAnterior[0] || 0) + 1; // Vehículo
   const rndSector = generarRND();
@@ -178,6 +178,8 @@ function procesarFila(filaAnterior, datos, generadores) {
   filaActual[9] = paradaValidacion ? 'Sí' : 'No';
 
   // Actualizar las demoras de validación disponibles
+  filaActual[10] = '-'; // RND 5
+  filaActual[11] = '-'; // RND 6
   if (filaAnterior[9] === 'Sí') {
     // Si hubo validación en la fila anterior y se generaron demoras, se utilzó la demora de validación 1 (filaAnterior[12])
 
@@ -192,8 +194,6 @@ function procesarFila(filaAnterior, datos, generadores) {
   } else {
     filaActual[12] = filaAnterior[12] || 0; // Si no hubo validación en la fila anterior, se mantiene la demora de validación 1 si existía
     filaActual[13] = filaAnterior[13] || 0; // Si no hubo validación en la fila anterior, se mantiene la demora de validación 2 si existía
-    filaActual[10] = '-'; // RND 5
-    filaActual[11] = '-'; // RND 6
   }
 
   if (filaActual[9] === 'Sí') {
@@ -212,9 +212,6 @@ function procesarFila(filaAnterior, datos, generadores) {
       filaActual[12] = arrayDemorasValidacion[0]; // Demora validación 1
       filaActual[13] = arrayDemorasValidacion[1]; // Demora validación 2
     }
-  } else {
-    filaActual[10] = '-'; // RND 5 vacío si no hay parada en validación
-    filaActual[11] = '-'; // RND 6 mantiene el valor anterior si no hay parada en validación
   }
 
   let bloqueoRuta = false;
