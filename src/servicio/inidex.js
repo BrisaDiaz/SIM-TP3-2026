@@ -70,6 +70,9 @@ export function ServicioSimulacion(datos) {
   let filaAnterior = [];
   let filaActual = [];
 
+  filaAnterior[12] = 0;
+  filaAnterior[13] = 0;
+
   for (let i = 0; i < datos.filasSimular; i++) {
     filaActual = procesarFila(filaAnterior, datos, generadores); // procesar fila actual a partir de fila anterior
 
@@ -177,7 +180,8 @@ function procesarFila(filaAnterior, datos, generadores) {
   // Actualizar las demoras de validación disponibles
   if (filaAnterior[9] === 'Sí') {
     // Si hubo validación en la fila anterior y se generaron demoras, se utilzó la demora de validación 1 (filaAnterior[12])
-    if (filaAnterior[12] !== 0 && filaAnterior[13] !== 0) {
+
+    if (filaAnterior[12] && filaAnterior[13] !== 0) {
       filaActual[12] = 0;
       filaActual[13] = filaAnterior[13]; // Demora validación 2 se mantiene
     } else {
@@ -185,6 +189,9 @@ function procesarFila(filaAnterior, datos, generadores) {
       filaActual[12] = 0;
       filaActual[13] = 0;
     }
+  } else {
+    filaActual[12] = 0;
+    filaActual[13] = 0;
   }
 
   if (filaActual[9] === 'Sí') {
