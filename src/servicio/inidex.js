@@ -32,106 +32,123 @@ const MOCK_DATOS = {
 
 export function ServicioSimulacion(datos) {
   //Generadores
-    const generadorUniformeCuadrasSectorCercano = new GeneradorUniforme(datos.aCercano, datos.bCercano);
-    const generadorUniformeCuadrasSectorIntermedio = new GeneradorUniforme(datos.aIntermedio, datos.bIntermedio);
-    const generadorUniformeCuadrasSectorLejano = new GeneradorUniforme(datos.aLejano, datos.bLejano);
-    const generadorUniformeRecorrido = new GeneradorUniforme(datos.aRecorrido, datos.bRecorrido);
-    const generadorNormalValidacion = new GeneradorNormal(datos.mediaValidacion, datos.desvValidacion);
-    const generadorExponencialParadaExtra = new GeneradorExponencial(1 / datos.mediaParadaExtra);
-    
-    const generadores = {
-        generadorUniformeCuadrasSectorCercano,
-        generadorUniformeCuadrasSectorIntermedio,
-        generadorUniformeCuadrasSectorLejano,
-        generadorUniformeRecorrido,
-        generadorNormalValidacion,
-        generadorExponencialParadaExtra,
-    };
-    //Simulación
-    const vectorEstado = [];
+  const generadorUniformeCuadrasSectorCercano = new GeneradorUniforme(
+    datos.aCercano,
+    datos.bCercano,
+  );
+  const generadorUniformeCuadrasSectorIntermedio = new GeneradorUniforme(
+    datos.aIntermedio,
+    datos.bIntermedio,
+  );
+  const generadorUniformeCuadrasSectorLejano = new GeneradorUniforme(
+    datos.aLejano,
+    datos.bLejano,
+  );
+  const generadorUniformeRecorrido = new GeneradorUniforme(
+    datos.aRecorrido,
+    datos.bRecorrido,
+  );
+  const generadorNormalValidacion = new GeneradorNormal(
+    datos.mediaValidacion,
+    datos.desvValidacion,
+  );
+  const generadorExponencialParadaExtra = new GeneradorExponencial(
+    1 / datos.mediaParadaExtra,
+  );
 
-    let filaAnterior = [];
-    let filaActual = [];
+  const generadores = {
+    generadorUniformeCuadrasSectorCercano,
+    generadorUniformeCuadrasSectorIntermedio,
+    generadorUniformeCuadrasSectorLejano,
+    generadorUniformeRecorrido,
+    generadorNormalValidacion,
+    generadorExponencialParadaExtra,
+  };
+  //Simulación
+  const vectorEstado = [];
 
-    for (let i = 0; i < datos.filasSimular; i++) {
+  let filaAnterior = [];
+  let filaActual = [];
 
-        filaActual = procesarFila(filaAnterior, datos, generadores); // procesar fila actual a partir de fila anterior
-        
-        
-        if (i + 1 >= datos.filaDesde + 1  && vectorEstado.length < datos.filasMostrar) { 
-            // guardar fila en vectorEstado
-            vectorEstado.push(filaActual);
-        }
-        filaAnterior = [...filaActual]; // actualizar fila anterior
+  for (let i = 0; i < datos.filasSimular; i++) {
+    filaActual = procesarFila(filaAnterior, datos, generadores); // procesar fila actual a partir de fila anterior
+
+    if (i >= datos.filaDesde - 1 && vectorEstado.length < datos.filasMostrar) {
+      // guardar fila en vectorEstado
+      vectorEstado.push(filaActual);
     }
+    filaAnterior = [...filaActual]; // actualizar fila anterior
+  }
 
+  const reporte = generarReporte(filaAnterior);
 
-    const reporte = generarReporte(filaAnterior);
-
-    return {
-        vectorEstado,
-        reporte,
-        ultimaFila: filaAnterior,
-    }
-    
+  return {
+    vectorEstado,
+    reporte,
+    ultimaFila: filaAnterior,
+  };
 }
 
 function determinarSectorDestino(rnd, datos) {
-    const rangoCercano = [0, datos.probCercano / 100 - 0.01];
-    const rangoIntermedio = [datos.probCercano / 100, (datos.probCercano + datos.probIntermedio) / 100 - 0.01];
-    
-   if (rnd >= rangoCercano[0] && rnd <= rangoCercano[1]) {
-        return 'Cercano';
-   } else if (rnd >= rangoIntermedio[0] && rnd <= rangoIntermedio[1]) {
-        return 'Intermedio';
-    }
-    return 'Lejano';
+  const rangoCercano = [0, datos.probCercano / 100 - 0.01];
+  const rangoIntermedio = [
+    datos.probCercano / 100,
+    (datos.probCercano + datos.probIntermedio) / 100 - 0.01,
+  ];
+
+  if (rnd >= rangoCercano[0] && rnd <= rangoCercano[1]) {
+    return 'Cercano';
+  } else if (rnd >= rangoIntermedio[0] && rnd <= rangoIntermedio[1]) {
+    return 'Intermedio';
+  }
+  return 'Lejano';
 }
 
 function determinarCuadrasAlDestino(sector, rnd, generadores) {
-    switch (sector) {
-        case 'Cercano':
-            return generadores.generadorUniformeCuadrasSectorCercano.generar(rnd)[0];
-        case 'Intermedio':
-            return generadores.generadorUniformeCuadrasSectorIntermedio.generar(rnd)[0];
-        case 'Lejano':
-            return generadores.generadorUniformeCuadrasSectorLejano.generar(rnd)[0];
-        default:
-            throw new Error('Sector desconocido');
-    }
-
+  switch (sector) {
+    case 'Cercano':
+      return generadores.generadorUniformeCuadrasSectorCercano.generar(rnd)[0];
+    case 'Intermedio':
+      return generadores.generadorUniformeCuadrasSectorIntermedio.generar(
+        rnd,
+      )[0];
+    case 'Lejano':
+      return generadores.generadorUniformeCuadrasSectorLejano.generar(rnd)[0];
+    default:
+      throw new Error('Sector desconocido');
+  }
 }
 
 function derminarParadaValidacion(rnd, datos) {
-    const rangoValidacion = [0, datos.probValidacion / 100 - 0.01];
-    return rnd >= rangoValidacion[0] && rnd <= rangoValidacion[1];
+  const rangoValidacion = [0, datos.probValidacion / 100 - 0.01];
+  return rnd >= rangoValidacion[0] && rnd <= rangoValidacion[1];
 }
 
 function determinarBloqueoRuta(rnd, datos) {
-    const rangoBloqueo = [0, datos.probBloqueo / 100 - 0.01];
-    return rnd >= rangoBloqueo[0] && rnd <= rangoBloqueo[1];
+  const rangoBloqueo = [0, datos.probBloqueo / 100 - 0.01];
+  return rnd >= rangoBloqueo[0] && rnd <= rangoBloqueo[1];
 }
 
 function determinarParadaExtra(rnd, datos) {
-    const rangoParadaExtra = [0, datos.probParadaExtra / 100 - 0.01];
-    return rnd >= rangoParadaExtra[0] && rnd <= rangoParadaExtra[1];
+  const rangoParadaExtra = [0, datos.probParadaExtra / 100 - 0.01];
+  return rnd >= rangoParadaExtra[0] && rnd <= rangoParadaExtra[1];
 }
 
 function determinarDemoraValidacion(rnd1, rnd2, generadores) {
-    return generadores.generadorNormalValidacion.generar(rnd1, rnd2);
+  return generadores.generadorNormalValidacion.generar(rnd1, rnd2);
 }
 
-function determinarDemoraBloqueo(datos,demoraBase) {
-    return demoraBase * datos.porcAumentoDemora / 100;
+function determinarDemoraBloqueo(datos, demoraBase) {
+  return (demoraBase * datos.porcAumentoDemora) / 100;
 }
-function determinarDemoraParadaExtra(rnd,generadores) {
-    return generadores.generadorExponencialParadaExtra.generar(rnd)[0];
+function determinarDemoraParadaExtra(rnd, generadores) {
+  return generadores.generadorExponencialParadaExtra.generar(rnd)[0];
 }
 
 function procesarFila(filaAnterior, datos, generadores) {
   const filaActual = [...filaAnterior]; // copiar fila anterior
 
-  filaActual[0] = filaAnterior[0] ? filaAnterior[0] + 1 : 1; // Vehículo
+  filaActual[0] = (filaAnterior[0] || 0) + 1; // Vehículo
   const rndSector = generarRND();
   filaActual[1] = rndSector; // RND1
   filaActual[2] = determinarSectorDestino(rndSector, datos); // Sector destino
