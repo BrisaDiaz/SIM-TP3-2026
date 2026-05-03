@@ -4045,6 +4045,12 @@ const agruparColumnas = () => {
 
 const gruposColumnas = agruparColumnas();
 
+// Función para obtener colores distintivos basados en HSL para las columnas
+const obtenerColorColumna = (index, lightness, alpha = 1) => {
+  const hue = (index * 360) / columnas.length;
+  return `hsla(${hue}, 70%, ${lightness}%, ${alpha})`;
+};
+
 function VectorDeEstado({ vectorEstado, ultimaFila }) {
   // Combinar todos los datos, la última fila fija al final
   const todasLasFilas = [...vectorEstado, ultimaFila];
@@ -4058,15 +4064,19 @@ function VectorDeEstado({ vectorEstado, ultimaFila }) {
             {/* Primera fila: categorías principales */}
             <tr>
               {Array.from(gruposColumnas.entries()).map(
-                ([nombreGrupo, columnasGrupo]) => (
-                  <th
-                    key={nombreGrupo}
-                    colSpan={columnasGrupo.length}
-                    className={styles['th-principal']}
-                  >
-                    {nombreGrupo}
-                  </th>
-                ),
+                ([nombreGrupo, columnasGrupo]) => {
+                  const indexMedio = columnasGrupo[0].index + (columnasGrupo.length - 1) / 2;
+                  return (
+                    <th
+                      key={nombreGrupo}
+                      colSpan={columnasGrupo.length}
+                      className={styles['th-principal']}
+                      style={{ backgroundColor: obtenerColorColumna(indexMedio, 25), color: 'white' }}
+                    >
+                      {nombreGrupo}
+                    </th>
+                  );
+                }
               )}
             </tr>
             {/* Segunda fila: sub-columnas */}
@@ -4075,6 +4085,7 @@ function VectorDeEstado({ vectorEstado, ultimaFila }) {
                 <th
                   key={idx}
                   className={styles['th-secundaria']}
+                  style={{ backgroundColor: obtenerColorColumna(idx, 40), color: 'white' }}
                 >
                   {col.secundaria}
                 </th>
@@ -4091,7 +4102,12 @@ function VectorDeEstado({ vectorEstado, ultimaFila }) {
                   className={esUltimaFila ? styles['fija-final'] : ''}
                 >
                   {columnas.map((col, idxCol) => (
-                    <td key={idxCol}>{col.accessor(fila)}</td>
+                    <td 
+                      key={idxCol}
+                      style={{ backgroundColor: esUltimaFila ? undefined : obtenerColorColumna(idxCol, 50, 0.15) }}
+                    >
+                      {col.accessor(fila)}
+                    </td>
                   ))}
                 </tr>
               );

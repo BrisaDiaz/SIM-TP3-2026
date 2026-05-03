@@ -17,18 +17,49 @@
 
 .tabla {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Cambiado para que sticky funcione bien con bordes */
+  border-spacing: 0;
   font-size: 12px;
   min-width: 2000px; /* Para asegurar scroll horizontal */
 }
 
+.tabla thead {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+/* Compensar el border-collapse: separate */
 .tabla th,
 .tabla td {
-  border: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   padding: 8px;
-  text-align: center; /* CAMBIADO: centrado horizontal */
-  vertical-align: middle; /* CAMBIADO: centrado vertical */
+  text-align: center; /* Centrado horizontal */
+  vertical-align: middle; /* Centrado vertical */
   white-space: nowrap;
+}
+
+.tabla th:first-child,
+.tabla td:first-child {
+  border-left: 1px solid #ddd;
+}
+
+.tabla thead tr:first-child th {
+  border-top: 1px solid #ddd;
+}
+
+/* Las filas th-principal y secundaria ahora deben tener position sticky para asegurar soporte */
+.tabla thead tr:nth-child(1) th {
+  position: sticky;
+  top: 0;
+  z-index: 21;
+}
+
+.tabla thead tr:nth-child(2) th {
+  position: sticky;
+  top: 36px; /* Altura aprox del primer header */
+  z-index: 20;
 }
 
 .th-principal {
@@ -47,18 +78,19 @@
   text-align: center; /* Centrado */
 }
 
-.tabla tbody tr:hover {
-  background-color: #f5f5f5;
+.tabla tbody tr:hover td {
+  background-color: #f5f5f5 !important; /* Para anular el color de td inline temporalmente en hover */
 }
 
 /* Estilo para la última fila fija */
-.fija-final {
-  background-color: #ffeb3b;
+.fija-final td {
+  background-color: #ffeb3b !important;
   font-weight: bold;
   position: sticky;
   bottom: 0;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
   z-index: 10;
+  border-top: 2px solid #ccc;
 }
 
 /* Opcional: colores alternos en filas para mejor legibilidad */
