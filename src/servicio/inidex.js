@@ -154,7 +154,6 @@ function procesarFila(filaAnterior, datos, generadores) {
   filaActual[0] = (filaAnterior[0] || 0) + 1; // Vehículo
   const rndSector = generarRND();
   filaActual[1] = rndSector; // RND1
-  filaActual[2] = determinarSectorDestino(rndSector, datos); // Sector destino
   const sectorDestino = determinarSectorDestino(rndSector, datos);
   filaActual[2] = sectorDestino; // Sector
   const rndCuadras = generarRND(); // RND 2
@@ -222,7 +221,7 @@ function procesarFila(filaAnterior, datos, generadores) {
     bloqueoRuta = determinarBloqueoRuta(rndBloqueo, datos);
     filaActual[15] = bloqueoRuta ? 'Sí' : 'No'; // ¿Ruta bloqueada?
     if (bloqueoRuta) {
-      const incrementoDemora = determinarDemoraBloqueo(datos, demoraBase);
+      const incrementoDemora = determinarDemoraBloqueo(datos, tiempoXCuadra);
       filaActual[16] = incrementoDemora; // Incremento
     } else {
       filaActual[16] = 0; // Sin incremento de demora
