@@ -6,29 +6,29 @@ import {
 } from '../generadores';
 import { formatearTiempo } from '../utils/index';
 
-const MOCK_DATOS = {
-  filasSimular: 100000,
-  filasMostrar: 200,
-  filaDesde: 0,
-  probCercano: 35,
-  probIntermedio: 40,
-  probLejano: 25,
-  aCercano: 1,
-  bCercano: 2,
-  aIntermedio: 2,
-  bIntermedio: 3,
-  aLejano: 3,
-  bLejano: 5,
-  aRecorrido: 30,
-  bRecorrido: 45,
-  probValidacion: 45,
-  mediaValidacion: 60,
-  desvValidacion: 20,
-  probBloqueo: 40,
-  porcAumentoDemora: 80,
-  probParadaExtra: 24,
-  mediaParadaExtra: 80,
-};
+// const MOCK_DATOS = {
+//   filasSimular: 100000,
+//   filasMostrar: 200,
+//   filaDesde: 0,
+//   probCercano: 35,
+//   probIntermedio: 40,
+//   probLejano: 25,
+//   aCercano: 1,
+//   bCercano: 2,
+//   aIntermedio: 2,
+//   bIntermedio: 3,
+//   aLejano: 3,
+//   bLejano: 5,
+//   aRecorrido: 30,
+//   bRecorrido: 45,
+//   probValidacion: 45,
+//   mediaValidacion: 60,
+//   desvValidacion: 20,
+//   probBloqueo: 40,
+//   porcAumentoDemora: 80,
+//   probParadaExtra: 24,
+//   mediaParadaExtra: 80,
+// };
 
 export function ServicioSimulacion(datos) {
   //Generadores
