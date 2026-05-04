@@ -49,9 +49,9 @@ class GeneradorNormal extends GeneradorVariablesAleatorias {
   // Método de Box-Muller para generar dos números normales a partir de dos números aleatorios uniformes
   generar(rnd1, rnd2) {
     const z0 =
-      Math.sqrt(-2.0 * Math.log(rnd1)) * Math.cos(2.0 * Math.PI * rnd2);
+      Math.sqrt(-2.0 * Math.log(1 -rnd1)) * Math.cos(2.0 * Math.PI * rnd2);
     const z1 =
-      Math.sqrt(-2.0 * Math.log(rnd1)) * Math.sin(2.0 * Math.PI * rnd2);
+      Math.sqrt(-2.0 * Math.log(1- rnd1)) * Math.sin(2.0 * Math.PI * rnd2);
     return [this.mu + z0 * this.sigma, this.mu + z1 * this.sigma];
   }
 }
