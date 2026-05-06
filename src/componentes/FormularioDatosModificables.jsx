@@ -37,6 +37,9 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
   const onSubmit = async (data) => {
     try {
       onSubmitData(data);
+      for (let field in data) {
+        data[field] = Number(data[field]);
+      }
     } catch (error) {
       console.error(
         'Error al cargar los párametros:',
@@ -52,7 +55,10 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
       Number(watch('probIntermedio')) +
       Number(watch('probLejano'));
 
-      return Math.abs(total - 100) < 0.0001 || 'La suma de las probabilidades del sector debe ser 100%';
+    return (
+      Math.abs(total - 100) < 0.0001 ||
+      'La suma de las probabilidades del sector debe ser 100%'
+    );
   };
 
   return (
@@ -64,25 +70,42 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.gridCards}>
-          
           {/* Configuración General */}
           <div className={`${styles.sectionCard} ${styles.fullWidth}`}>
             <h3 className={styles.sectionTitle}>⚙️ Configuración General</h3>
             <div className={styles.inputGrid + ' ' + styles.threeColumns}>
               <div className={styles.inputGroup}>
                 <label>Cantidad a simular:</label>
-                <input type="number" {...register('filasSimular', { required: true })} min={1} />
-                {errors.filasSimular && <span className={styles.errorText}>Campo obligatorio</span>}
+                <input
+                  type='number'
+                  {...register('filasSimular', { required: true })}
+                  min={1}
+                />
+                {errors.filasSimular && (
+                  <span className={styles.errorText}>Campo obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Cantidad a mostrar:</label>
-                <input type="number" {...register('filasMostrar', { required: true })} min={1} />
-                {errors.filasMostrar && <span className={styles.errorText}>Campo obligatorio</span>}
+                <input
+                  type='number'
+                  {...register('filasMostrar', { required: true })}
+                  min={1}
+                />
+                {errors.filasMostrar && (
+                  <span className={styles.errorText}>Campo obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Mostrar desde:</label>
-                <input type="number" {...register('filaDesde', { required: true })} min={1} />
-                {errors.filaDesde && <span className={styles.errorText}>Campo obligatorio</span>}
+                <input
+                  type='number'
+                  {...register('filaDesde', { required: true })}
+                  min={1}
+                />
+                {errors.filaDesde && (
+                  <span className={styles.errorText}>Campo obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -91,11 +114,20 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
           <div className={styles.sectionCard}>
             <h3 className={styles.sectionTitle}>📍 Sector Cercano</h3>
             <div className={styles.inputGrid}>
-              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+              <div
+                className={styles.inputGroup + ' ' + styles.fullWidth}
+                style={{ gridColumn: '1 / -1' }}
+              >
                 <label>Probabilidad (%):</label>
-                <input 
-                  type="number" 
-                  step="any" {...register('probCercano', { required: true, validate:validarSuma})} max={100} />
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probCercano', {
+                    required: true,
+                    validate: validarSuma,
+                  })}
+                  max={100}
+                />
                 {errors.probCercano && (
                   <span className={styles.errorText}>
                     {errors.probCercano.type === 'required'
@@ -106,13 +138,27 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
               </div>
               <div className={styles.inputGroup}>
                 <label>Mínimo (A):</label>
-                <input type="number" step="any" {...register('aCercano', { required: true })} min={0} />
-                {errors.aCercano && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('aCercano', { required: true })}
+                  min={0}
+                />
+                {errors.aCercano && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Máximo (B):</label>
-                <input type="number" step="any" {...register('bCercano', { required: true })} min={0}/>
-                {errors.bCercano && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('bCercano', { required: true })}
+                  min={0}
+                />
+                {errors.bCercano && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -121,9 +167,21 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
           <div className={styles.sectionCard}>
             <h3 className={styles.sectionTitle}>📍 Sector Intermedio</h3>
             <div className={styles.inputGrid}>
-              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+              <div
+                className={styles.inputGroup + ' ' + styles.fullWidth}
+                style={{ gridColumn: '1 / -1' }}
+              >
                 <label>Probabilidad (%):</label>
-                <input type="number" step="any" {...register('probIntermedio', { required: true, validate: validarSuma })} max={100} min={0}/>
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probIntermedio', {
+                    required: true,
+                    validate: validarSuma,
+                  })}
+                  max={100}
+                  min={0}
+                />
                 {errors.probIntermedio && (
                   <span className={styles.errorText}>
                     {errors.probIntermedio.type === 'required'
@@ -134,13 +192,27 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
               </div>
               <div className={styles.inputGroup}>
                 <label>Mínimo (A):</label>
-                <input type="number" step="any" {...register('aIntermedio', { required: true })} min={0}/>
-                {errors.aIntermedio && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('aIntermedio', { required: true })}
+                  min={0}
+                />
+                {errors.aIntermedio && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Máximo (B):</label>
-                <input type="number" step="any" {...register('bIntermedio', { required: true })} min={0}/>
-                {errors.bIntermedio && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('bIntermedio', { required: true })}
+                  min={0}
+                />
+                {errors.bIntermedio && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -149,9 +221,21 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
           <div className={styles.sectionCard}>
             <h3 className={styles.sectionTitle}>📍 Sector Lejano</h3>
             <div className={styles.inputGrid}>
-              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+              <div
+                className={styles.inputGroup + ' ' + styles.fullWidth}
+                style={{ gridColumn: '1 / -1' }}
+              >
                 <label>Probabilidad (%):</label>
-                <input type="number" step="any" {...register('probLejano', { required: true, validate: validarSuma })} max={100} min={0}/>
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probLejano', {
+                    required: true,
+                    validate: validarSuma,
+                  })}
+                  max={100}
+                  min={0}
+                />
                 {errors.probLejano && (
                   <span className={styles.errorText}>
                     {errors.probLejano.type === 'required'
@@ -162,30 +246,60 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
               </div>
               <div className={styles.inputGroup}>
                 <label>Mínimo (A):</label>
-                <input type="number" step="any" {...register('aLejano', { required: true })} min={0}/>
-                {errors.aLejano && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('aLejano', { required: true })}
+                  min={0}
+                />
+                {errors.aLejano && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Máximo (B):</label>
-                <input type="number" step="any" {...register('bLejano', { required: true })} min={0}/>
-                {errors.bLejano && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('bLejano', { required: true })}
+                  min={0}
+                />
+                {errors.bLejano && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
 
           {/* Recorrido */}
           <div className={styles.sectionCard}>
-            <h3 className={styles.sectionTitle}>🚗 Recorrido (Tiempo/Cuadra)</h3>
+            <h3 className={styles.sectionTitle}>
+              🚗 Recorrido (Tiempo/Cuadra)
+            </h3>
             <div className={styles.inputGrid}>
               <div className={styles.inputGroup}>
                 <label>Mínimo (A):</label>
-                <input type="number" step="any" {...register('aRecorrido', { required: true })} min={0}/>
-                {errors.aRecorrido && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('aRecorrido', { required: true })}
+                  min={0}
+                />
+                {errors.aRecorrido && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Máximo (B):</label>
-                <input type="number" step="any" {...register('bRecorrido', { required: true })} min={0}/>
-                {errors.bRecorrido && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('bRecorrido', { required: true })}
+                  min={0}
+                />
+                {errors.bRecorrido && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -194,20 +308,45 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
           <div className={styles.sectionCard}>
             <h3 className={styles.sectionTitle}>🛑 Parada de Validación</h3>
             <div className={styles.inputGrid}>
-              <div className={styles.inputGroup + ' ' + styles.fullWidth} style={{gridColumn: '1 / -1'}}>
+              <div
+                className={styles.inputGroup + ' ' + styles.fullWidth}
+                style={{ gridColumn: '1 / -1' }}
+              >
                 <label>Probabilidad de frenar (%):</label>
-                <input type="number" step="any" {...register('probValidacion', { required: true })} max={100} min={0}/>
-                {errors.probValidacion && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probValidacion', { required: true })}
+                  max={100}
+                  min={0}
+                />
+                {errors.probValidacion && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Media:</label>
-                <input type="number" step="any" {...register('mediaValidacion', { required: true })} min={0} />
-                {errors.mediaValidacion && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('mediaValidacion', { required: true })}
+                  min={0}
+                />
+                {errors.mediaValidacion && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Desv. Estándar:</label>
-                <input type="number" step="any" {...register('desvValidacion', { required: true })} min={0} />
-                {errors.desvValidacion && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('desvValidacion', { required: true })}
+                  min={0}
+                />
+                {errors.desvValidacion && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -218,13 +357,30 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
             <div className={styles.inputGrid}>
               <div className={styles.inputGroup}>
                 <label>Probabilidad (%):</label>
-                <input type="number" step="any" {...register('probBloqueo', { required: true })} max={100} min={0} />
-                {errors.probBloqueo && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probBloqueo', { required: true })}
+                  max={100}
+                  min={0}
+                />
+                {errors.probBloqueo && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Aumento Demora (%):</label>
-                <input type="number" step="any" {...register('porcAumentoDemora', { required: true })} min={0} />
-                {errors.porcAumentoDemora && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('porcAumentoDemora', {
+                    required: true,
+                  })}
+                  min={0}
+                />
+                {errors.porcAumentoDemora && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
@@ -235,21 +391,38 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
             <div className={styles.inputGrid}>
               <div className={styles.inputGroup}>
                 <label>Probabilidad (%):</label>
-                <input type="number" step="any" {...register('probParadaExtra', { required: true })} max={100} min={0} />
-                {errors.probParadaExtra && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('probParadaExtra', { required: true })}
+                  max={100}
+                  min={0}
+                />
+                {errors.probParadaExtra && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
               <div className={styles.inputGroup}>
                 <label>Media:</label>
-                <input type="number" step="any" {...register('mediaParadaExtra', { required: true })} min={0} />
-                {errors.mediaParadaExtra && <span className={styles.errorText}>Obligatorio</span>}
+                <input
+                  type='number'
+                  step='any'
+                  {...register('mediaParadaExtra', { required: true })}
+                  min={0}
+                />
+                {errors.mediaParadaExtra && (
+                  <span className={styles.errorText}>Obligatorio</span>
+                )}
               </div>
             </div>
           </div>
-
         </div>
 
         <div className={styles.submitContainer}>
-          <button type="submit" className={styles.submitBtn}>
+          <button
+            type='submit'
+            className={styles.submitBtn}
+          >
             Ejecutar Simulación
           </button>
         </div>
