@@ -64,7 +64,7 @@ const FormularioDatosModificables = ({ onSubmitData }) => {
   return (
     <section className={styles.formContainer}>
       <div className={styles.header}>
-        <h2>TP Simulación Parqueando G19</h2>
+        <h2>TP Simulación Parqueando G14</h2>
         <p>Configuración de Parámetros de la Simulación</p>
       </div>
 
