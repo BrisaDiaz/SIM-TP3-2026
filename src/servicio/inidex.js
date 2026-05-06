@@ -33,27 +33,27 @@ import { formatearTiempo } from '../utils/index';
 export function ServicioSimulacion(datos) {
   //Generadores
   const generadorUniformeCuadrasSectorCercano = new GeneradorUniforme(
-    datos.aCercano,
-    datos.bCercano,
+    datos.aCercano * 1,
+    datos.bCercano * 1,
   );
   const generadorUniformeCuadrasSectorIntermedio = new GeneradorUniforme(
-    datos.aIntermedio,
-    datos.bIntermedio,
+    datos.aIntermedio * 1,
+    datos.bIntermedio * 1,
   );
   const generadorUniformeCuadrasSectorLejano = new GeneradorUniforme(
-    datos.aLejano,
-    datos.bLejano,
+    datos.aLejano * 1,
+    datos.bLejano * 1,
   );
   const generadorUniformeRecorrido = new GeneradorUniforme(
-    datos.aRecorrido,
-    datos.bRecorrido,
+    datos.aRecorrido * 1,
+    datos.bRecorrido * 1,
   );
   const generadorNormalValidacion = new GeneradorNormal(
-    datos.mediaValidacion,
-    datos.desvValidacion,
+    datos.mediaValidacion * 1,
+    datos.desvValidacion * 1,
   );
   const generadorExponencialParadaExtra = new GeneradorExponencial(
-    1 / datos.mediaParadaExtra,
+    1 / (datos.mediaParadaExtra * 1),
   );
 
   const generadores = {
